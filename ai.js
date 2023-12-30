@@ -1,6 +1,6 @@
 import OpenAI from 'openai';
 
-const openai = new OpenAI({ apiKey: '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'});
+const openai = new OpenAI({ apiKey: 'OPENAI_API_KEY'});
 
 // Function to handle communication with ChatGPT-3
 async function UserQuery(message) {
