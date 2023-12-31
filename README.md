@@ -46,11 +46,17 @@ Body Parameters :
 
 ### Dowmload EMQX Desktop Client (Optional)
 https://mqttx.app/
+
 Connect Client this way:
+
 https://mqttx.app/docs/get-started
 
 ### Download EMQX
 https://www.emqx.io/downloads
+
+Start EMQX : ./emqx/bin/emqx start
+
+Stop EMQX : ./emqx/bin/emqx stop
 
 ### Open EMQX Management server
 Start your web browser and enter http://localhost:18083/ (localhost can be substituted with your IP address) in the address bar to access the EMQX Dashboard, from where you can connect to your clients or check the running status
