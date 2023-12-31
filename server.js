@@ -1,7 +1,20 @@
 import e from 'express';
 import UserQuery from './ai.js';
+import mqtt from "mqtt";
+
 const app = e();
 const port = 3000;
+
+
+let client = await mqtt.connect("mqtt://localhost", {clientId:"backend-server", username:"nodejs-server-1"});
+client.on("connect", () => {
+    console.log("Connected to mqtt server")
+    client.subscribe("presence", (err) => {
+      if (!err) {
+        client.publish("presence", "Backend loggin in");
+      }
+    });
+  });
 
 // Middleware to parse JSON body
 app.use(e.json());
@@ -17,6 +30,23 @@ app.post('/agent', async (req, res) => {
     try {
         const response = await UserQuery(msg);
         res.send(response);
+    } catch (error) {
+        res.status(500).send('Error processing your request');
+    }
+});
+
+
+// Route to handle '/commmand'
+app.post('/command', async (req, res) => {
+    const { topic, command } = req.body;
+
+    if (!topic || !command) {
+        return res.status(400).send('Both parameters are required');
+    }
+
+    try {
+        const response = client.publish(topic, command);
+        res.send("Check Mqtt server for response");
     } catch (error) {
         res.status(500).send('Error processing your request');
     }
