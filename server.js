@@ -16,6 +16,20 @@ client.on("connect", () => {
     });
   });
 
+
+function process(result) {
+    let topics = result['changes'];
+    let states = result['states'];
+    if (topics.length == states.length) {
+        var i = 0;
+        for (;i<topics.length;i++) {
+            client.publish(topics[i], states[i]);
+        }
+    } else {
+        throw "Error in AI response";
+    }
+}
+
 // Middleware to parse JSON body
 app.use(e.json());
 
@@ -29,9 +43,12 @@ app.post('/agent', async (req, res) => {
 
     try {
         const response = await UserQuery(msg);
-        res.send(response);
+        console.log(response);
+        const result = JSON.parse(response);
+        process(result);
+        res.send(result['message']);
     } catch (error) {
-        res.status(500).send('Error processing your request');
+        res.status(500).send('Error processing your request\n' + error);
     }
 });
 
