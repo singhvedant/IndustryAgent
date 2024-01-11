@@ -6,7 +6,7 @@ const app = e();
 const port = 3000;
 
 
-let client = await mqtt.connect("mqtt://localhost", {clientId:"backend-server", username:"nodejs-server-1"});
+let client = await mqtt.connect("mqtt://127.0.0.1", {clientId:"backend-server", username:"nodejs-server-1"});
 client.on("connect", () => {
     console.log("Connected to mqtt server")
     client.subscribe("presence", (err) => {
